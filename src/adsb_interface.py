@@ -44,7 +44,7 @@ class StateVector(object):
 
 
 
-class ADBSSource:
+class ADSBSource:
     def __init__(self):
         pass
         self.bounding_box = [[0.0, 0.0], [0.0, 0.0]]
@@ -80,9 +80,9 @@ class ADBSSource:
     def get_states(self):
         pass
 
-class OpenSkyADBS(ADBSSource):
+class OpenSkyADSB(ADSBSource):
     def __init__(self):
-        ADBSSource.__init__(self)
+        ADSBSource.__init__(self)
 
     def open(self):
         from opensky_api import OpenSkyApi
@@ -95,26 +95,30 @@ class OpenSkyADBS(ADBSSource):
         else:
             return self.api.get_states()
 
-
-
-class ADBSFactory:
+class ADSBFactory:
     def __init__(self):
         pass
 
     def open(self, name = "opensky"):
         if name == "opensky":
-            adsb = OpenSkyADBS()
+            adsb = OpenSkyADSB()
             adsb.open()
             return adsb
         else:
             print ("No Other API is supported at this time")
 
-
 if __name__ == "__main__":
-    print ("Testing... Getting all planes for Massachusetts")
-    adsb = ADBSFactory().open("opensky")
-    adsb.set_bounding_box(42.067599, 42.68852, -73.504556, -70.629270)
-    #adsb.enable_bounding_box(True);
-    s = adsb.get_states()
-    print("States")
-    print(s)
+    #print ("Testing... Getting all planes for Massachusetts")
+    print ("Testing...")
+    adsb = ADSBFactory().open("opensky")
+    adsb.set_bounding_box(-73.504556, -70.629270, 42.067599, 42.68852)
+    #adsb.set_bounding_box(-119.8, -64.2, 25.6, 47.3)
+    adsb.enable_bounding_box(True);
+    #s = adsb.get_states()
+    #print("States")
+    states = adsb.get_states()
+    print(states)
+    #help(states)
+    #print ("states: %s" % str(dir(states.states[0])))
+    #print ("State 1: %s" %  adsb.get_states()[0]))
+
